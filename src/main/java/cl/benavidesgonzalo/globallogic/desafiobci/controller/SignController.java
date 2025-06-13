@@ -13,9 +13,9 @@ import cl.benavidesgonzalo.globallogic.desafiobci.model.Error;
 import cl.benavidesgonzalo.globallogic.desafiobci.model.User;
 import cl.benavidesgonzalo.globallogic.desafiobci.service.UserService;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class SignController {
@@ -27,19 +27,19 @@ public class SignController {
     UserService service;
 
     @RequestMapping(path = "/sign-up", method=RequestMethod.POST)
-    public ResponseEntity<Object> sign(@RequestParam User user) {
+    public ResponseEntity<Object> sign(@RequestBody User user) {
         String errorDetail = "";
 
         Matcher mailMatcher = mailRegex.matcher(user.getEmail());
         Matcher passMatcher = passRegex.matcher(user.getPassword());
         
         if(mailMatcher.matches())
-            System.out.println("mail matches!");
+            System.out.println("Mail matches!");
         else
             errorDetail += "Invalid mail format. ";
 
         if(passMatcher.matches())
-            System.out.println("pass matches!");
+            System.out.println("Password matches!");
         else
             errorDetail += "Invalid password format. ";
 
@@ -54,8 +54,10 @@ public class SignController {
                 errorDetail += "User already exists. ";
                 return new ResponseEntity<>(new Error(HttpStatus.BAD_REQUEST.value(), errorDetail, new Date()), HttpStatus.BAD_REQUEST);
             }
-            else
+            else{
+
                 return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+            }
 
         } catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

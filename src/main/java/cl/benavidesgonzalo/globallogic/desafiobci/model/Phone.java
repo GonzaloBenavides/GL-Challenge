@@ -1,13 +1,16 @@
 package cl.benavidesgonzalo.globallogic.desafiobci.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name ="phones")
@@ -15,17 +18,18 @@ public class Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @Column
     private Long number;
     @Column
-    private Integer cityCd;
+    private Integer cityCode;
     @Column
-    private String countryCd;
+    private String countryCode;
     
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
     private User user;
 
     public Long getId() {
@@ -45,20 +49,20 @@ public class Phone {
         this.number = number;
     }
 
-    public Integer getCityCd() {
-        return cityCd;
+    public Integer getCityCode() {
+        return cityCode;
     }
 
-    public void setCityCd(Integer cityCd) {
-        this.cityCd = cityCd;
+    public void setCityCode(Integer cityCd) {
+        this.cityCode = cityCd;
     }
 
-    public String getCountryCd() {
-        return countryCd;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountryCd(String countryCd) {
-        this.countryCd = countryCd;
+    public void setCountryCode(String countryCd) {
+        this.countryCode = countryCd;
     }
 
     public User getUser() {

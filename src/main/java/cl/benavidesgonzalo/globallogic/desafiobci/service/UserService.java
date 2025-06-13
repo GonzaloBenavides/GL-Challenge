@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import cl.benavidesgonzalo.globallogic.desafiobci.model.Phone;
 import cl.benavidesgonzalo.globallogic.desafiobci.model.User;
 import cl.benavidesgonzalo.globallogic.desafiobci.model.UserRepo;
 import cl.benavidesgonzalo.globallogic.desafiobci.util.JwtUtil;
@@ -45,6 +46,10 @@ public class UserService {
         Optional<User> existe = repo.findByName(newUser.getName());
         if(existe.isPresent()) return null;
         else {
+            for(Phone p : newUser.getPhones()){
+                p.setUser(newUser);
+            }
+
             newUser.setPassword(encoder.encode(newUser.getPassword()));
             newUser.setToken(this.generateUserToken(newUser));
             repo.save(newUser);
