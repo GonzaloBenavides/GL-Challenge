@@ -1,7 +1,51 @@
-# GL-Challenge
-Springboot web exercise for Global Logic
+# GL-Challenge (ES)
+Ejercicio de Springboot para Global Logic. Se trata de un proyecto de Springboot hecho con maven y dos diagramas.
+
+## Diagramas
+Hace mucho que no hacía diagramas de este tipo, por lo que estoy un poco oxidado en este conocimiento.
+
+## Proyecto de Springboot
+Son dos requests de tipo POST. Una para registrarse en la app y otra para ingresar.
+
+El proyecto usa Java 8, Springboot 2.5.14 y Maven. Se inicia con el servidor de Tomcat incorporado en Springboot.
+Para utilizarlo sólo debes clonar el repo y usar el comando de Maven "mvn spring-boot:run"
 
 
+Como era necesario usar JUnit intenté implementarlo en los controladores RESt pero fallé en el proceso. Por lo tanto, para probar la aplicación se debieran usar los siguientes JSONs.
+El email tiene una validación para que mantenga su formato de email (correo@dominio.ccxx), mientras que la contraseña requiere exactamente 2 dígitos, 1 mayúscula y un largo entre 8 y 12 caracteres.
+
+POST = "localhost:8080/sign-up"
+{
+    "name": "Admin",
+    "email": "admin@domain.com",
+    "password": "Password10",
+    "phones": [
+        {
+            "number": 55555555,
+            "cityCode": 9,
+            "countryCode": "+56"
+        }
+    ]
+}
+
+Luego de registrarse, la contraseña será cifrada y se generará un token con JWT. Este token se mostrará en el response junto con los datos del usuario. Lo debemos usar si queremos probar el request de login.
+
+POST = "localhost:8080/login"
+{
+    "token": "token-obtenido-al-registrarse"
+}
+
+Luego de usar el token para ingresar a la aplicación, este se renovará, por lo que no será el mismo.
+
+# GL-Challenge (EN)
+Springboot web exercise for Global Logic. It contains a Maven Springboot project & two diagrams.
+
+
+## About the diagrams
+It's been a long time since I made a diagram of this kind so I'm a bit rusty on its design.
+
+
+## About the Springboot project
 It consists in two POST requests. One for signing up & another for logging in.
 
 This project runs with Java 8, Springboot 2.5.14 and Maven. It uses Springboot's embedded Tomcat server.
